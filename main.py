@@ -1,7 +1,12 @@
 from datasets import Dataset 
 import os
 from ragas import evaluate
-from ragas.metrics import faithfulness, answer_correctness
+from ragas.metrics import (
+    answer_relevancy,
+    faithfulness,
+    context_recall,
+    context_precision,answer_correctness
+)
 
 data_samples = {
     'question': [
@@ -29,6 +34,9 @@ data_samples = {
 
 dataset = Dataset.from_dict(data_samples)
 
-score = evaluate(dataset, metrics=[faithfulness, answer_correctness])
+score = evaluate(dataset, metrics=[
+        answer_correctness,
+        faithfulness, 
+    ],raise_exceptions=False)
 df = score.to_pandas()
 df.to_csv('score.csv', index=False)
